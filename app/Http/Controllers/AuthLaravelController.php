@@ -16,7 +16,9 @@ use Log;
 
 class AuthLaravelController extends Controller
 {
-    /*public function register(Request $request){
+    public function register(Request $request){
+
+        Log::debug("entra");
 
         $this->reCAPTCHA($request);
 
@@ -24,7 +26,7 @@ class AuthLaravelController extends Controller
             'name'=>'required|max:50',
             'lastName'=>'max:50',
             'email'=>'required|email|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed'  
           ];
           
         $validator = Validator::make($request->all(), $rules);
@@ -51,7 +53,7 @@ class AuthLaravelController extends Controller
             return response(json_encode($e->toArray()),$e->errorHttp());
           }
 
-    }*/
+    }
 
     public function login(Request $request){
 
@@ -76,6 +78,24 @@ class AuthLaravelController extends Controller
 
     }
 
+    public function emailVerificationNotice($id, Request $request){
+      
+     
+
+      if (!$request->hasValidSignature()) {
+        return response()->json(["msg" => "Invalid/Expired url provided."], 401);
+      }
+      
+      $user = User::findOrFail($id);
+
+      if (!$user->hasVerifiedEmail()) {
+          $user->markEmailAsVerified();
+      }
+
+
+      return response('Ok',204);
+    }
+    
     /*public function changePassword(Request $request){
 
        # Validation
@@ -100,23 +120,7 @@ class AuthLaravelController extends Controller
 
     }
 
-    public function emailVerificationNotice($id, Request $request){
-      
-     
-
-      if (!$request->hasValidSignature()) {
-        return response()->json(["msg" => "Invalid/Expired url provided."], 401);
-      }
-      
-      $user = User::findOrFail($id);
-
-      if (!$user->hasVerifiedEmail()) {
-          $user->markEmailAsVerified();
-      }
-
-
-      return response('Ok',204);
-    }
+    
 
     public function resendVerification(){
 
@@ -194,6 +198,7 @@ class AuthLaravelController extends Controller
             return response('',500);
 
     }
+    */
 
     private function reCAPTCHA(Request $request){
 
@@ -213,7 +218,7 @@ class AuthLaravelController extends Controller
 
       }
 
-    }*/
+    }
    
     private function getToken(string $email){
 

@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Src\admin\user\domain;
 
-use Src\shared\domain\object\UserId;
 use Src\shared\domain\IConvert;
 
 
@@ -17,7 +16,7 @@ class User implements IConvert, \JsonSerializable
     //private $email_verified_at;
     private $password;
     
-    public function __construct(UserId $id, UserName $name, UserLastName $lastName, UserEmail $email, UserPassword $password){
+    public function __construct(string $id, string $name, string $lastName=null, string $email, string $password){
 
         $this->id = $id;
         $this->name = $name;
@@ -48,10 +47,10 @@ class User implements IConvert, \JsonSerializable
 
     public function toArray():array{
         return  array(
-                    'id' => $this->id->value(),
-                    'name'=>$this->name->value(),
-                    'lastName'=>$this->lastName->value(),
-                    'email'=>$this->email->value(),
+                    'id' => $this->id(),
+                    'name'=>$this->name(),
+                    'lastName'=>$this->lastName(),
+                    'email'=>$this->email(),
                     );
     }
 

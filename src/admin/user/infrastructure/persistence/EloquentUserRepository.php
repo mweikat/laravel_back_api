@@ -24,11 +24,11 @@ final class EloquentUserRepository implements UserRepository{
         try{
 
             $model           = new EloquentUser();
-            $model->id       = $user->id()->value();
-            $model->name     = $user->name()->value();
-            $model->lastName = $user->lastName()->value();
-            $model->email = $user->email()->value();
-            $model->password = $user->password()->value();
+            $model->id       = $user->id();
+            $model->name     = $user->name();
+            $model->last_name = $user->lastName();
+            $model->email    = $user->email();
+            $model->password = $user->password();
             
 
             $model->save();
